@@ -52,7 +52,7 @@ tr_torrent* tr_torrents::get(std::string_view magnet_link) const
 
 tr_torrent* tr_torrents::get(tr_sha1_digest_t const& hash) const
 {
-    auto [begin, end] = std::equal_range(std::cbegin(by_hash_), std::cend(by_hash_), hash, CompareTorrentByHash);
+    auto [begin, end] = std::equal_range(std::begin(by_hash_), std::end(by_hash_), hash, CompareTorrentByHash);
     return begin == end ? nullptr : *begin;
 }
 
@@ -102,6 +102,7 @@ std::vector<tr_torrent_id_t> tr_torrents::removedSince(time_t timestamp) const
     }
 
     std::sort(std::begin(ids), std::end(ids));
-    ids.erase(std::unique(std::begin(ids), std::end(ids)), std::end(ids));
+    auto const unique_it = std::unique(std::begin(ids), std::end(ids));
+    ids.erase(unique_it, std::end(ids));
     return ids;
 }

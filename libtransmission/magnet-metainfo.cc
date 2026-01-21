@@ -118,9 +118,8 @@ std::optional<tr_sha1_digest_t> parseBase32Hash(std::string_view sv)
         return {};
     }
 
-    if (!std::all_of(
-            std::begin(sv),
-            std::end(sv),
+    if (!std::ranges::all_of(
+            sv,
             [](unsigned char ch)
             { return '0' <= ch && ch < '0' + std::size(bitzi::Base32Lookup) && bitzi::Base32Lookup[ch - '0'] != 0xFF; }))
     {
@@ -207,7 +206,7 @@ void tr_magnet_metainfo::add_webseed(std::string_view webseed)
 
     auto& urls = webseed_urls_;
 
-    if (auto const it = std::find(std::begin(urls), std::end(urls), webseed); it != std::end(urls))
+    if (auto const it = std::ranges::find(urls, webseed); it != std::ranges::end(urls))
     {
         return;
     }

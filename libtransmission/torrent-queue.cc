@@ -51,7 +51,7 @@ size_t tr_torrent_queue::get_pos(tr_torrent_id_t const id)
     {
         auto const begin = std::begin(queue_);
         auto const end = std::end(queue_);
-        auto it = std::find(begin, end, id);
+        auto it = std::ranges::find(queue_, id);
         if (it == end)
         {
             return MaxQueuePosition;

@@ -115,7 +115,7 @@ public:
 private:
     TR_CONSTEXPR20 void dec_replication() noexcept
     {
-        std::for_each(std::begin(candidates_), std::end(candidates_), [](Candidate& candidate) { --candidate.replication; });
+        std::ranges::for_each(candidates_, [](Candidate& candidate) { --candidate.replication; });
     }
 
     TR_CONSTEXPR20 void dec_replication_bitfield(tr_bitfield const& bitfield)
@@ -144,7 +144,7 @@ private:
 
     TR_CONSTEXPR20 void inc_replication() noexcept
     {
-        std::for_each(std::begin(candidates_), std::end(candidates_), [](Candidate& candidate) { ++candidate.replication; });
+        std::ranges::for_each(candidates_, [](Candidate& candidate) { ++candidate.replication; });
     }
 
     void inc_replication_bitfield(tr_bitfield const& bitfield)
@@ -308,18 +308,12 @@ private:
 
     [[nodiscard]] TR_CONSTEXPR20 CandidateVec::iterator find_by_piece(tr_piece_index_t const piece)
     {
-        return std::find_if(
-            std::begin(candidates_),
-            std::end(candidates_),
-            [piece](auto const& c) { return c.piece == piece; });
+        return std::ranges::find_if(candidates_, [piece](auto const& c) { return c.piece == piece; });
     }
 
     [[nodiscard]] TR_CONSTEXPR20 CandidateVec::iterator find_by_block(tr_block_index_t const block)
     {
-        return std::find_if(
-            std::begin(candidates_),
-            std::end(candidates_),
-            [block](auto const& c) { return c.block_belongs(block); });
+        return std::ranges::find_if(candidates_, [block](auto const& c) { return c.block_belongs(block); });
     }
 
     static constexpr tr_piece_index_t get_salt(

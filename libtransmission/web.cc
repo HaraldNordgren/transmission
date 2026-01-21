@@ -694,9 +694,9 @@ public:
     {
         auto const lock = std::unique_lock{ tasks_mutex_ };
 
-        auto const iter = std::find(std::begin(running_tasks_), std::end(running_tasks_), task);
-        TR_ASSERT(iter != std::end(running_tasks_));
-        if (iter == std::end(running_tasks_))
+        auto const iter = std::ranges::find(running_tasks_, task);
+        TR_ASSERT(iter != std::ranges::end(running_tasks_));
+        if (iter == std::ranges::end(running_tasks_))
         {
             return;
         }
